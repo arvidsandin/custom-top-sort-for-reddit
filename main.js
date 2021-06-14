@@ -1,7 +1,15 @@
 if(sessionStorage.getItem('filterNumber') == null || sessionStorage.getItem('filterTimespan') == null){
   resetSelection();
 }
-var reddit = new Old();
+
+const url = window.location.href;
+var reddit
+if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
+  reddit = new Old();
+}
+else if (/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
+  reddit = new New();
+}
 reddit.enforceSelectedSorting();
 
 // functions
