@@ -1,0 +1,19 @@
+{
+
+  "manifest_version": 2,
+  "name": "Reddit top custom sort",
+  "version": "0.1",
+
+  "description": "Allow sorting subreddits based on other times durations than the default ones.",
+
+  "icons": {
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["*://old.reddit.com/*top/*"],
+      "js": ["oldReddit.js", "main.js"]
+    }
+  ]
+
+}
