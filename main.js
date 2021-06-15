@@ -4,13 +4,26 @@ if(sessionStorage.getItem('filterNumber') == null || sessionStorage.getItem('fil
 
 const url = window.location.href;
 var reddit;
+var scrolling = false;
 if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
   reddit = new Old();
 }
 else if (/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
   reddit = new New();
 
+  //scroll event throttling
+  document.addEventListener('scroll', function() {
+    scrolling = true;
+  }, {passive: true});
+  setInterval(() => {
+    if (scrolling) {
+      scrolling = false;
+      reddit.enforceSelectedSorting();
+    }
+  },1000);
 }
+
+
 reddit.enforceSelectedSorting();
 window.addEventListener('load', (event) => {
   reddit.enforceSelectedSorting();
