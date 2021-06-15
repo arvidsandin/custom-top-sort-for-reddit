@@ -104,7 +104,7 @@ class New {
       var words = time.split(' ');
       var postNumber = parseInt(words[0]);
       var postWord = words[1];
-      if (postNumber > filterNumber &&
+      if (postNumber >= filterNumber &&
         (this.stringMatches(postWord, filterWord) ||
         this.stringMatches(postWord, filterWord.substring(0, filterWord.length - 1))))
         {
