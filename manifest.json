@@ -1,7 +1,7 @@
 {
 
   "manifest_version": 2,
-  "name": "Reddit top custom sort",
+  "name": "Custom top sort for Reddit",
   "version": "0.1",
 
   "description": "Allow sorting subreddits based on other times durations than the default ones.",
