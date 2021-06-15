@@ -61,24 +61,25 @@ class New {
   enforceSelectedSorting(){
     var filterNumber = parseInt(sessionStorage.getItem('filterNumber'));
     var filterTimespan = sessionStorage.getItem('filterTimespan');
+    this.removePostsOlderThan(filterNumber, filterTimespan);
     switch(filterTimespan){
       case 'years':
-        this.removePostsOlderThan(filterNumber, filterTimespan);
         break;
-      this.removePostsOlderThan(0, 'years');
       case 'months':
-        this.removePostsOlderThan(filterNumber, filterTimespan);
+        this.removePostsOlderThan(0, 'years');
         break;
-      this.removePostsOlderThan(0, 'months');
       case 'weeks':
-        this.removePostsOlderThan(filterNumber*7, filterTimespan);
+      this.removePostsOlderThan(0, 'years');
+      this.removePostsOlderThan(0, 'months');
         break;
       case 'days':
-        this.removePostsOlderThan(filterNumber, filterTimespan);
+        this.removePostsOlderThan(0, 'years');
+        this.removePostsOlderThan(0, 'months');
         break;
-      this.removePostsOlderThan(0, 'days');
       case 'hours':
-        this.removePostsOlderThan(filterNumber, filterTimespan);
+        this.removePostsOlderThan(0, 'years');
+        this.removePostsOlderThan(0, 'months');
+        this.removePostsOlderThan(0, 'days');
         break;
       default:
         break;
@@ -107,9 +108,12 @@ class New {
       console.log(postNumber > filterNumber);
       console.log(postWord, filterWord);
       console.log(this.stringMatches(postWord, filterWord));
-      if (postNumber > filterNumber && this.stringMatches(postWord, filterWord)) {
+      if (postNumber > filterNumber &&
+        (this.stringMatches(postWord, filterWord) ||
+        this.stringMatches(postWord, filterWord.substring(0, filterWord.length - 1))))
+        {
         posts[i].remove();
-      }
+        }
     }
   }
 
