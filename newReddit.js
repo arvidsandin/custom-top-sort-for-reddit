@@ -104,10 +104,6 @@ class New {
       var words = time.split(' ');
       var postNumber = parseInt(words[0]);
       var postWord = words[1];
-      console.log(words);
-      console.log(postNumber > filterNumber);
-      console.log(postWord, filterWord);
-      console.log(this.stringMatches(postWord, filterWord));
       if (postNumber > filterNumber &&
         (this.stringMatches(postWord, filterWord) ||
         this.stringMatches(postWord, filterWord.substring(0, filterWord.length - 1))))
