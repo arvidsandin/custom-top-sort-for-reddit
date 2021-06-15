@@ -3,14 +3,18 @@ if(sessionStorage.getItem('filterNumber') == null || sessionStorage.getItem('fil
 }
 
 const url = window.location.href;
-var reddit
+var reddit;
 if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
   reddit = new Old();
 }
 else if (/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
   reddit = new New();
+
 }
 reddit.enforceSelectedSorting();
+window.addEventListener('load', (event) => {
+  reddit.enforceSelectedSorting();
+});
 
 // functions
 function hoursToMilliseconds(hours){

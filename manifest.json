@@ -11,8 +11,8 @@
 
   "content_scripts": [
     {
-      "matches": ["*://old.reddit.com/*top/*"],
-      "js": ["oldReddit.js", "main.js"]
+      "matches": ["*://old.reddit.com/*top/*", "*://new.reddit.com/*top/*"],
+      "js": ["oldReddit.js", "newReddit.js", "main.js"]
     }
   ]
 
