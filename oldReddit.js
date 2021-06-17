@@ -1,75 +1,16 @@
 class Old {
-  constructor() {
+  constructor(listOfSortings) {
     //for reddit enhancement suite
     window.addEventListener("neverEndingLoad", function() {
       this.enforceSelectedSorting();
     });
 
     var dropDown = document.getElementsByClassName('drop-choices lightdrop')[0];
-    dropDown.innerHTML = `
-      <form method="POST" action="https://old.reddit.com/top/">
-        <input type="hidden" name="t" value="hour">
-          <a href="https://old.reddit.com/top/" class="choice" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');$(this).parent().submit(); return false;">
-            last hour
-        </a>
-      </form>
-    `
-    dropDown.innerHTML += `
-      <form method="POST" action="https://old.reddit.com/top/">
-        <input type="hidden" name="t" value="day">
-          <a href="https://old.reddit.com/top/" class="choice" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');$(this).parent().submit(); return false;">
-            last day
-        </a>
-      </form>
-    `
-    dropDown.innerHTML += `
-      <form method="POST" action="https://old.reddit.com/top/">
-        <input type="hidden" name="t" value="week">
-          <a href="https://old.reddit.com/top/" class="choice" onclick="sessionStorage.setItem('filterNumber', '2');sessionStorage.setItem('filterTimespan', 'days');$(this).parent().submit(); return false;">
-            last 2 days
-        </a>
-      </form>
-    `
-    dropDown.innerHTML += `
-      <form method="POST" action="https://old.reddit.com/top/">
-        <input type="hidden" name="t" value="week">
-          <a href="https://old.reddit.com/top/" class="choice" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');$(this).parent().submit(); return false;">
-            last week
-        </a>
-      </form>
-    `
-    dropDown.innerHTML += `
-      <form method="POST" action="https://old.reddit.com/top/">
-        <input type="hidden" name="t" value="month">
-          <a href="https://old.reddit.com/top/" class="choice" onclick="sessionStorage.setItem('filterNumber', '2');sessionStorage.setItem('filterTimespan', 'weeks');$(this).parent().submit(); return false;">
-            last 2 weeks
-        </a>
-      </form>
-    `
-    dropDown.innerHTML += `
-      <form method="POST" action="https://old.reddit.com/top/">
-        <input type="hidden" name="t" value="month">
-          <a href="https://old.reddit.com/top/" class="choice" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');$(this).parent().submit(); return false;">
-            last month
-        </a>
-      </form>
-    `
-    dropDown.innerHTML += `
-      <form method="POST" action="https://old.reddit.com/top/">
-        <input type="hidden" name="t" value="year">
-          <a href="https://old.reddit.com/top/" class="choice" onclick="sessionStorage.setItem('filterNumber', '3');sessionStorage.setItem('filterTimespan', 'months');$(this).parent().submit(); return false;">
-            last 3 months
-        </a>
-      </form>
-    `
-    dropDown.innerHTML += `
-      <form method="POST" action="https://old.reddit.com/top/">
-        <input type="hidden" name="t" value="year">
-          <a href="https://old.reddit.com/top/" class="choice" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');$(this).parent().submit(); return false;">
-            last year
-        </a>
-      </form>
-    `
+    dropDown.innerHTML = '';
+    for (var sorting of listOfSortings) {
+      dropDown.innerHTML += this.generateSortingHTML(sorting.filterNumber, sorting.filterWord);
+    }
+
     dropDown.innerHTML += `
       <form method="POST" action="https://old.reddit.com/top/">
         <input type="hidden" name="t" value="all">
@@ -83,6 +24,9 @@ class Old {
   enforceSelectedSorting(){
     var filterNumber = parseInt(sessionStorage.getItem('filterNumber'));
     var filterTimespan = sessionStorage.getItem('filterTimespan');
+    if (filterNumber == 1) {
+      return;
+    }
     switch(filterTimespan){
       case 'hours':
         this.removePostsOlderThan(hoursToMilliseconds(filterNumber));
@@ -105,6 +49,33 @@ class Old {
     if (filterNumber != 0 && filterTimespan != 'default') {
       this.changeTextOfSelectedSorting('last ' + filterNumber + ' ' + filterTimespan);
     }
+  }
+
+  generateSortingHTML(filterNumber, filterWord){
+    var html = `<form method="POST" action="https://old.reddit.com/top/">
+        <input type="hidden" name="t" value="`
+    if (filterNumber == 1) {
+      html += filterWord.substring(0, filterWord.length - 1)
+    }
+    else {
+      var times = ['hours', 'days', 'weeks', 'months', 'years', 'alls'];
+      var index = times.indexOf(filterWord);
+      var nextSorting = times[index + 1];
+      html += nextSorting.substring(0, nextSorting.length -1);
+    }
+    html += `">
+      <a href="https://old.reddit.com/top/" class="choice" onclick="sessionStorage.setItem('filterNumber', '` + filterNumber.toString() + `');sessionStorage.setItem('filterTimespan', '`
+      + filterWord + `');$(this).parent().submit(); return false;">`
+      + 'last ';
+    if (filterNumber != 1) {
+      html += filterNumber.toString() + ' ';
+      html += filterWord;
+    }
+    else {
+      html += filterWord.substring(0, filterWord.length -1);
+    }
+    html += `</a></form>`
+    return html;
   }
 
   changeTextOfSelectedSorting(newText){

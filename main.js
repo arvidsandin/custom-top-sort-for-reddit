@@ -4,20 +4,30 @@ if(sessionStorage.getItem('filterNumber') == null || sessionStorage.getItem('fil
 
 const url = window.location.href;
 var reddit;
-var scrolling = false;
+var isScrolling = false;
+var sortings = [
+  {filterNumber: 1, filterWord: 'hours'},
+  {filterNumber: 2, filterWord: 'days'},
+  {filterNumber: 1, filterWord: 'days'},
+  {filterNumber: 1, filterWord: 'weeks'},
+  {filterNumber: 1, filterWord: 'months'},
+  {filterNumber: 1, filterWord: 'years'}
+];
+console.log(sortings);
+
 if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
-  reddit = new Old();
+  reddit = new Old(sortings);
 }
 else if (/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
   reddit = new New();
 
   //scroll event throttling
   document.addEventListener('scroll', function() {
-    scrolling = true;
+    isScrolling = true;
   }, {passive: true});
   setInterval(() => {
-    if (scrolling) {
-      scrolling = false;
+    if (isScrolling) {
+      isScrolling = false;
       reddit.enforceSelectedSorting();
     }
   },1000);
