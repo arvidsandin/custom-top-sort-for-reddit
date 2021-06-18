@@ -52,7 +52,10 @@ class Old {
   }
 
   generateSortingHTML(filterNumber, filterWord){
-    var html = `<form method="POST" action="https://old.reddit.com/top/">
+    var url = window.location.href;
+    var indexOfSignificantURLContent = url.search('/top/') + 5;
+    url = url.substring(0, indexOfSignificantURLContent);
+    var html = `<form method="POST" action="` + url +`">
         <input type="hidden" name="t" value="`
     if (filterNumber == 1) {
       html += filterWord.substring(0, filterWord.length - 1)
@@ -64,7 +67,7 @@ class Old {
       html += nextSorting.substring(0, nextSorting.length -1);
     }
     html += `">
-      <a href="https://old.reddit.com/top/" class="choice" onclick="sessionStorage.setItem('filterNumber', '` + filterNumber.toString() + `');sessionStorage.setItem('filterTimespan', '`
+      <a href="` + url + `" class="choice" onclick="sessionStorage.setItem('filterNumber', '` + filterNumber.toString() + `');sessionStorage.setItem('filterTimespan', '`
       + filterWord + `');$(this).parent().submit(); return false;">`
       + 'last ';
     if (filterNumber != 1) {
