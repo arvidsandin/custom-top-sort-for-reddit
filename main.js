@@ -13,12 +13,12 @@ var sortings = [
   {filterNumber: 1, filterWord: 'months'},
   {filterNumber: 1, filterWord: 'years'}
 ];
-console.log(sortings);
-
-if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
+// URL is old.reddit.com or cookie redesign_optout is true
+if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
+  || document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))) {
   reddit = new Old(sortings);
 }
-else if (/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
+else {
   reddit = new New();
 
   //scroll event throttling

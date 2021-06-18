@@ -9,9 +9,14 @@
   "icons": {
   },
 
+  "permissions": [
+    "cookies",
+    "*://*.reddit.com"
+  ],
+
   "content_scripts": [
     {
-      "matches": ["*://old.reddit.com/*top/*", "*://new.reddit.com/*top/*"],
+      "matches": ["*://*.reddit.com/*top/*"],
       "js": ["oldReddit.js", "newReddit.js", "main.js"]
     }
   ]
