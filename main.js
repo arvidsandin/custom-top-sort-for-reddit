@@ -7,10 +7,11 @@ var reddit;
 var isScrolling = false;
 var sortings = [
   {filterNumber: 1, filterWord: 'hours'},
-  {filterNumber: 2, filterWord: 'days'},
   {filterNumber: 1, filterWord: 'days'},
+  {filterNumber: 2, filterWord: 'days'},
   {filterNumber: 1, filterWord: 'weeks'},
   {filterNumber: 1, filterWord: 'months'},
+  {filterNumber: 3, filterWord: 'months'},
   {filterNumber: 1, filterWord: 'years'},
   {filterNumber: 0, filterWord: 'all'}
 ];
