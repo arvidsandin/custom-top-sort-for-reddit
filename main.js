@@ -11,7 +11,8 @@ var sortings = [
   {filterNumber: 1, filterWord: 'days'},
   {filterNumber: 1, filterWord: 'weeks'},
   {filterNumber: 1, filterWord: 'months'},
-  {filterNumber: 1, filterWord: 'years'}
+  {filterNumber: 1, filterWord: 'years'},
+  {filterNumber: 0, filterWord: 'all'}
 ];
 // URL is old.reddit.com or cookie redesign_optout is true
 if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
@@ -19,7 +20,7 @@ if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.tes
   reddit = new Old(sortings);
 }
 else {
-  reddit = new New();
+  reddit = new New(sortings);
 
   //scroll event throttling
   document.addEventListener('scroll', function() {

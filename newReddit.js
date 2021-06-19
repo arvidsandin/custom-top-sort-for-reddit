@@ -1,60 +1,20 @@
 class New {
-  constructor() {
+  constructor(listOfSortings) {
+    var html = '';
+    for (var sorting of listOfSortings) {
+      html += this.generateSortingHTML(sorting.filterNumber, sorting.filterWord);
+    }
+    
     var listButton = document.getElementsByClassName('_29FQ-HlVE3aNu0iB8mO-ey GzkzdrqG-NjAYH7eKJan4')[0];
     listButton.addEventListener('click', function() {
       setTimeout(function () {
         var dropDown = document.getElementsByClassName('_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif')[0];
-        dropDown.innerHTML = `
-          <a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/r/memes/top/?t=hour" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');">
-            <span class="_2-cXnP74241WI7fpcpfPmg">
-              Now
-            </span>
-          </a>
-        `
-        //_1IKtbRloF_LV1hPqMzP3MC _1yVJwSS9tASrkJ6R6wvXpT Seems to be for the selected one
-        dropDown.innerHTML += `
-          <a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/r/memes/top/?t=day" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');">
-            <span class="_2-cXnP74241WI7fpcpfPmg">
-              Today
-            </span>
-          </a>
-        `
-        dropDown.innerHTML += `
-          <a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G " role="menuitem" href="/r/memes/top/?t=week" onclick="sessionStorage.setItem('filterNumber', '2');sessionStorage.setItem('filterTimespan', 'days');">
-            <span class="_2-cXnP74241WI7fpcpfPmg">
-              Last 2 days
-            </span>
-          </a>
-        `
-        dropDown.innerHTML += `
-          <a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/r/memes/top/?t=week" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');">
-            <span class="_2-cXnP74241WI7fpcpfPmg">
-              This Week
-            </span>
-          </a>
-        `
-        dropDown.innerHTML += `
-          <a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/r/memes/top/?t=month" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');">
-            <span class="_2-cXnP74241WI7fpcpfPmg">
-              This Month
-            </span>
-          </a>
-        `
-        dropDown.innerHTML += `
-          <a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/r/memes/top/?t=year" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');">
-            <span class="_2-cXnP74241WI7fpcpfPmg">
-              This Year
-            </span>
-          </a>
-        `
-        dropDown.innerHTML += `
-          <a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="/r/memes/top/?t=all" onclick="sessionStorage.setItem('filterNumber', '0');sessionStorage.setItem('filterTimespan', 'default');">
-            <span class="_2-cXnP74241WI7fpcpfPmg">
-              All Time
-            </span>
-          </a>
-        `
+        dropDown.innerHTML = html;
       }, 200);
+      setTimeout(function () {
+        var dropDown = document.getElementsByClassName('_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif')[0];
+        dropDown.innerHTML = html;
+      }, 1000);
     });
   }
 
@@ -87,6 +47,44 @@ class New {
     if (filterNumber != 0 && filterTimespan != 'default') {
       this.changeTextOfSelectedSorting('last ' + filterNumber + ' ' + filterTimespan);
     }
+  }
+
+  generateSortingHTML(filterNumber, filterWord){
+    var url = window.location.href;
+    var indexOfSignificantURLContent = url.search('/top/') + 5;
+    url = url.substring(0, indexOfSignificantURLContent);
+    var html = `<a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="`
+      + url + '?t=';
+    if (filterNumber == 0) {
+      html += filterWord;
+    }
+    else if (filterNumber == 1) {
+      html += filterWord.substring(0, filterWord.length - 1);
+    }
+    else {
+      var times = ['hours', 'days', 'weeks', 'months', 'years', 'alls'];
+      var index = times.indexOf(filterWord);
+      var nextSorting = times[index + 1];
+      html += nextSorting.substring(0, nextSorting.length -1);
+    }
+    html += `" onclick="sessionStorage.setItem('filterNumber', '` + filterNumber
+    + `');sessionStorage.setItem('filterTimespan', '` + filterWord
+    + `');">
+    <span class="_2-cXnP74241WI7fpcpfPmg">`;
+    if (filterNumber == 0) {
+      html += filterWord;
+    }
+    else if (filterNumber != 1) {
+      html += 'last ';
+      html += filterNumber.toString() + ' ';
+      html += filterWord;
+    }
+    else {
+      html += 'last ';
+      html += filterWord.substring(0, filterWord.length -1);
+    }
+    html += `</span></a>`
+    return html;
   }
 
   changeTextOfSelectedSorting(newText){
