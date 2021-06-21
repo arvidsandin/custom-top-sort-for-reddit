@@ -4,7 +4,7 @@ class New {
     for (var sorting of listOfSortings) {
       html += this.generateSortingHTML(sorting.filterNumber, sorting.filterWord);
     }
-    
+
     var listButton = document.getElementsByClassName('_29FQ-HlVE3aNu0iB8mO-ey GzkzdrqG-NjAYH7eKJan4')[0];
     listButton.addEventListener('click', function() {
       setTimeout(function () {
@@ -55,7 +55,7 @@ class New {
     url = url.substring(0, indexOfSignificantURLContent);
     var html = `<a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="`
       + url + '?t=';
-    if (filterNumber == 0) {
+    if (filterWord == 'all') {
       html += filterWord;
     }
     else if (filterNumber == 1) {
@@ -71,7 +71,7 @@ class New {
     + `');sessionStorage.setItem('filterTimespan', '` + filterWord
     + `');">
     <span class="_2-cXnP74241WI7fpcpfPmg">`;
-    if (filterNumber == 0) {
+    if (filterWord == "all") {
       html += filterWord;
     }
     else if (filterNumber != 1) {
@@ -97,7 +97,10 @@ class New {
   removePostsOlderThan(filterNumber, filterWord){
     var posts = document.getElementsByClassName('Post');
     for (var i = posts.length-1; i >= 0; i--) {
-      var time = posts[i].getElementsByClassName('_3jOxDPIQ0KaOWpzvSQo-1s')[0]
+      var time = posts[i].getElementsByClassName('_3jOxDPIQ0KaOWpzvSQo-1s')[0];
+      if (time == undefined) {
+        return;
+      }
       time = time.innerHTML;
       var words = time.split(' ');
       var postNumber = parseInt(words[0]);

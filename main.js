@@ -13,7 +13,7 @@ var sortings = [
   {filterNumber: 1, filterWord: 'months'},
   {filterNumber: 3, filterWord: 'months'},
   {filterNumber: 1, filterWord: 'years'},
-  {filterNumber: 0, filterWord: 'all'}
+  {filterNumber: 1, filterWord: 'all'}
 ];
 // URL is old.reddit.com or cookie redesign_optout is true
 if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)

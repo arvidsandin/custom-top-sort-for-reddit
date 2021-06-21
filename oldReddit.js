@@ -48,7 +48,7 @@ class Old {
     url = url.substring(0, indexOfSignificantURLContent);
     var html = `<form method="POST" action="` + url +`">
         <input type="hidden" name="t" value="`;
-    if (filterNumber == 0) {
+    if (filterWord == "all") {
           html += filterWord;
         }
     else if (filterNumber == 1) {
@@ -63,7 +63,7 @@ class Old {
     html += `">
       <a href="` + url + `" class="choice" onclick="sessionStorage.setItem('filterNumber', '` + filterNumber.toString() + `');sessionStorage.setItem('filterTimespan', '`
       + filterWord + `');$(this).parent().submit(); return false;">`;
-    if (filterNumber == 0) {
+    if (filterWord == "all") {
       html += filterWord;
     }
     else if (filterNumber != 1) {
