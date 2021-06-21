@@ -11,7 +11,8 @@
 
   "permissions": [
     "cookies",
-    "*://*.reddit.com/*"
+    "*://*.reddit.com/*",
+    "storage"
   ],
 
   "content_scripts": [
@@ -19,6 +20,10 @@
       "matches": ["*://*.reddit.com/*top/*"],
       "js": ["oldReddit.js", "newReddit.js", "main.js"]
     }
-  ]
+  ],
+
+  "options_ui": {
+    "page": "options/index.html"
+  }
 
 }

@@ -5,41 +5,55 @@ if(sessionStorage.getItem('filterNumber') == null || sessionStorage.getItem('fil
 const url = window.location.href;
 var reddit;
 var isScrolling = false;
-var sortings = [
+var sortings;
+var defaultSortings = [
   {filterNumber: 1, filterWord: 'hours'},
   {filterNumber: 1, filterWord: 'days'},
   {filterNumber: 2, filterWord: 'days'},
   {filterNumber: 1, filterWord: 'weeks'},
   {filterNumber: 1, filterWord: 'months'},
-  {filterNumber: 3, filterWord: 'months'},
   {filterNumber: 1, filterWord: 'years'},
   {filterNumber: 1, filterWord: 'all'}
 ];
-// URL is old.reddit.com or cookie redesign_optout is true
-if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
+var getting = browser.storage.sync.get("sortings");
+getting.then(onGot, onError);
+
+function onGot(item){
+  sortings = item || defaultSortings;
+  filterPosts();
+}
+function onError(error){
+  console.log(error);
+  sortings = defaultSortings;
+  filterPosts();
+}
+
+function filterPosts(){
+  // URL is old.reddit.com or cookie redesign_optout is true
+  if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
   || document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))) {
-  reddit = new Old(sortings);
-}
-else {
-  reddit = new New(sortings);
+    reddit = new Old(sortings);
+  }
+  else {
+    reddit = new New(sortings);
+    //scroll event throttling
+    document.addEventListener('scroll', function() {
+      isScrolling = true;
+    }, {passive: true});
+    setInterval(() => {
+      if (isScrolling) {
+        isScrolling = false;
+        reddit.enforceSelectedSorting();
+      }
+    },1000);
+  }
 
-  //scroll event throttling
-  document.addEventListener('scroll', function() {
-    isScrolling = true;
-  }, {passive: true});
-  setInterval(() => {
-    if (isScrolling) {
-      isScrolling = false;
-      reddit.enforceSelectedSorting();
-    }
-  },1000);
-}
 
-
-reddit.enforceSelectedSorting();
-window.addEventListener('load', (event) => {
   reddit.enforceSelectedSorting();
-});
+  window.addEventListener('load', (event) => {
+    reddit.enforceSelectedSorting();
+  });
+}
 
 // functions
 function hoursToMilliseconds(hours){
