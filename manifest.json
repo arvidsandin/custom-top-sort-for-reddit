@@ -7,6 +7,8 @@
   "description": "Allow sorting subreddits based on other times durations than the default ones.",
 
   "icons": {
+    "48": "icon/icon_48.png",
+    "96": "icon/icon_96.png"
   },
 
   "permissions": [
