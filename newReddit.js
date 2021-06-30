@@ -29,8 +29,9 @@ class New {
         this.removePostsOlderThan(0, 'years');
         break;
       case 'weeks':
-      this.removePostsOlderThan(0, 'years');
-      this.removePostsOlderThan(0, 'months');
+        this.removePostsOlderThan(0, 'years');
+        this.removePostsOlderThan(0, 'months');
+        this.removePostsOlderThan(filterNumber*7, 'days');
         break;
       case 'days':
         this.removePostsOlderThan(0, 'years');
