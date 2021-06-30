@@ -1,4 +1,3 @@
-
 var defaultSortings = [
   {filterNumber: 1, filterWord: 'hours'},
   {filterNumber: 1, filterWord: 'days'},
@@ -7,19 +6,15 @@ var defaultSortings = [
   {filterNumber: 1, filterWord: 'years'},
   {filterNumber: 1, filterWord: 'all'}
 ];
-var sortings = [];
-let savedData = browser.storage.sync.get("sortings");
-savedData.then((result)=>{
-  sortings = result || defaultSortings;
+var sortings = defaultSortings;
+
+(chrome ? chrome : browser).storage.local.get('sortings', function(result){
+  if (result) {
+    sortings = result.sortings || defaultSortings;
+  }
   for (var sorting of sortings) {
-    appendOption(sorting.filterNumber, sorting.filterWord)
-  };
-}, (error)=>{
-  console.log(`Error: ${error}`);
-  sortings = defaultSortings;
-  for (var sorting of sortings) {
-    appendOption(sorting.filterNumber, sorting.filterWord)
-  };
+    appendOption(sorting.filterNumber, sorting.filterWord);
+  }
 });
 
 
@@ -34,7 +29,7 @@ document.getElementById('saveButton').addEventListener('click', () =>{
       filterWord: row.childNodes[1].value.toLowerCase()
     });
   }
-  browser.storage.sync.set({
+  (chrome ? chrome : browser).storage.local.set({
     sortings: sortings
   });
 });

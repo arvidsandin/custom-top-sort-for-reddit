@@ -5,7 +5,6 @@ if(sessionStorage.getItem('filterNumber') == null || sessionStorage.getItem('fil
 const url = window.location.href;
 var reddit;
 var isScrolling = false;
-var sortings;
 var defaultSortings = [
   {filterNumber: 1, filterWord: 'hours'},
   {filterNumber: 1, filterWord: 'days'},
@@ -15,18 +14,13 @@ var defaultSortings = [
   {filterNumber: 1, filterWord: 'years'},
   {filterNumber: 1, filterWord: 'all'}
 ];
-var getting = browser.storage.sync.get("sortings");
-getting.then(onGot, onError);
-
-function onGot(item){
-  sortings = item || defaultSortings;
+var sortings = defaultSortings;
+(chrome ? chrome : browser).storage.local.get('sortings', function(result) {
+  if (result) {
+    sortings = result.sortings || defaultSortings;
+  }
   filterPosts();
-}
-function onError(error){
-  console.log(error);
-  sortings = defaultSortings;
-  filterPosts();
-}
+});
 
 function filterPosts(){
   // URL is old.reddit.com or cookie redesign_optout is true
