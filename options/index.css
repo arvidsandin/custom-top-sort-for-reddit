@@ -6,26 +6,30 @@ body{
 }
 
 #list{
-  width: 11rem;
+  width: 13rem;
 }
 
 .grid {
   display: grid;
   grid-column-gap: 5px;
-  margin-top: 10px;
-  grid-template-columns: 35% 50% 10%;
+  padding: 5px 0;
+  grid-template-columns: 10% 30% 45% 10%;
+  border-top: solid transparent 2px;
+  border-bottom: solid transparent 2px;
 }
-.grid_column_1 {
-  grid-column: 1 2;
-}
-.grid_column_2 {
-  grid-column: 2 3;
+
+.draggableArea {
+  padding: 1px 5px 0;
+  width: 0.5em;
+  font-size: 14pt;
+  -webkit-user-select: none;
+  user-select: none;
+  cursor: grab;
 }
 
 .remove_sorting{
   margin: 2px 0;
   font-size: 12pt;
-  grid-column: 3 4;
   font-weight: bold;
   display: inline-block;
   height: 1.3em;
@@ -35,10 +39,14 @@ body{
   cursor: pointer;
 }
 #add_sorting{
-  margin: 2px 0;
+  margin: 0 40%;
   font-size: 22pt;
   font-weight: bold;
   display: inline-block;
+  width: 20%;
+  text-align: center;
+  -webkit-user-select: none;
+  user-select: none;
 }
 #add_sorting:hover, #saveButton:hover{
   cursor: pointer;
