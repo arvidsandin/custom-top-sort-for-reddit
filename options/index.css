@@ -2,20 +2,29 @@
   font-size: 12pt;
 }
 body{
-  margin: 10px;
+  margin: 0;
 }
 
-#list{
-  width: 13rem;
+#container {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+#list {
+  width: 16rem;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 }
 
 .grid {
+  border-left: solid black 5px;
+  width: 100%;
   display: grid;
   grid-column-gap: 5px;
   padding: 5px 0;
   grid-template-columns: 10% 30% 45% 10%;
-  border-top: solid transparent 2px;
-  border-bottom: solid transparent 2px;
 }
 
 .draggableArea {
@@ -25,6 +34,10 @@ body{
   -webkit-user-select: none;
   user-select: none;
   cursor: grab;
+}
+
+input:invalid{
+  background-color: #ffaaaa;
 }
 
 .remove_sorting{
@@ -39,11 +52,11 @@ body{
   cursor: pointer;
 }
 #add_sorting{
-  margin: 0 40%;
+  margin: 0 42%;
   font-size: 22pt;
   font-weight: bold;
   display: inline-block;
-  width: 20%;
+  width: 100%;
   text-align: center;
   -webkit-user-select: none;
   user-select: none;
@@ -53,6 +66,7 @@ body{
 }
 
 #saveButton{
-  margin: 2px auto;
-  padding: 2px 5px;
+  width: 100%;
+  margin: 2px 40%;
+  padding: 4px 8px;
 }

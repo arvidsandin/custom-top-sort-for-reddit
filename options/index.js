@@ -55,21 +55,23 @@ function dragOver(event) {
   }
   if ((target.getBoundingClientRect().top+target.clientHeight/2) > event.clientY) {
     target.style.borderTop = "solid black 2px";
-    target.style.borderBottom = "solid transparent 2px";
+    target.style.borderBottom = "solid transparent 0px";
   }
   else {
     target.style.borderBottom = "solid black 2px";
-    target.style.borderTop = "solid transparent 2px";
+    target.style.borderTop = "solid transparent 0px";
   }
 }
 
 function dragLeave(event) {
   try {
     if (event.target.classList.contains('grid')) {
-      event.target.style.border = "solid transparent 2px"
+      event.target.style.borderTop = "solid transparent 0px";
+        event.target.style.borderBottom = "solid transparent 0px";
     }
     else {
-      event.target.parentNode.style.border = "solid transparent 2px"
+      event.target.parentNode.style.borderTop = "solid transparent 0px";
+      event.target.parentNode.style.borderBottom = "solid transparent 0px";
     }
   } catch (e) {
   }
@@ -83,7 +85,8 @@ function drop(event) {
     target = event.target.parentNode;
   }
 
-  target.style.border = "solid transparent 2px";
+  target.style.borderTop = "solid transparent 0px";
+  target.style.borderBottom = "solid transparent 0px";
   if ((target.getBoundingClientRect().top+target.clientHeight/2) > event.clientY) {
     target.parentNode.insertBefore(origin, target);
   }
@@ -99,7 +102,6 @@ function preventDefautlDrag(element){
   element.addEventListener('dragover', preventDefault);
   element.addEventListener('dragleave', preventDefault);
   element.addEventListener('drop', preventDefault);
-  // element.addEventListener('drop', stopPropagation);
 }
 
 var IDIndex = 0;
@@ -140,6 +142,7 @@ function createNumberInputField(defaultValue){
   inputField.setAttribute("min", "1");
   inputField.setAttribute("max", "1000");
   inputField.setAttribute("value", defaultValue.toString());
+  inputField.addEventListener('click', inputField.select());
   preventDefautlDrag(inputField);
   return inputField;
 }
