@@ -23,7 +23,7 @@ body{
   width: 100%;
   display: grid;
   grid-column-gap: 5px;
-  padding: 5px 0;
+  padding: 5px;
   grid-template-columns: 10% 30% 45% 10%;
 }
 
@@ -65,8 +65,19 @@ input:invalid{
   cursor: pointer;
 }
 
-#saveButton{
+#saveButtonContainer{
   width: 100%;
-  margin: 2px 40%;
+  margin: 2px 30% 2px 40%;
+}
+
+#saveButton{
   padding: 4px 8px;
+}
+
+#checkmark{
+  padding: 0 5px;
+  color: transparent;
+  transition: color 200ms ease-in-out;
+  -webkit-user-select: none;
+  user-select: none;
 }

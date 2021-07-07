@@ -23,15 +23,20 @@ document.getElementById('add_sorting').addEventListener('click', () =>{
 });
 document.getElementById('saveButton').addEventListener('click', () =>{
   sortings = [];
-  for (var row of document.getElementById('grid_container').childNodes) {
-    sortings.push({
-      filterNumber: row.childNodes[1].value,
-      filterWord: row.childNodes[2].value.toLowerCase()
+  try {
+    for (var row of document.getElementById('grid_container').childNodes) {
+      sortings.push({
+        filterNumber: row.childNodes[1].value,
+        filterWord: row.childNodes[2].value.toLowerCase()
+      });
+    }
+    (chrome ? chrome : browser).storage.local.set({
+      sortings: sortings
     });
+    animateCheckmark();
+  } catch (e) {
+    console.log(e);
   }
-  (chrome ? chrome : browser).storage.local.set({
-    sortings: sortings
-  });
 });
 
 //functions
@@ -67,7 +72,7 @@ function dragLeave(event) {
   try {
     if (event.target.classList.contains('grid')) {
       event.target.style.borderTop = "solid transparent 0px";
-        event.target.style.borderBottom = "solid transparent 0px";
+      event.target.style.borderBottom = "solid transparent 0px";
     }
     else {
       event.target.parentNode.style.borderTop = "solid transparent 0px";
@@ -101,7 +106,16 @@ function preventDefautlDrag(element){
   element.addEventListener('dragstart', stopPropagation);
   element.addEventListener('dragover', preventDefault);
   element.addEventListener('dragleave', preventDefault);
-  element.addEventListener('drop', preventDefault);
+}
+
+function animateCheckmark() {
+  var checkmark = document.getElementById('checkmark');
+  checkmark.style.transitionDuration = "200ms";
+  checkmark.style.color = "#229922";
+  setTimeout(() => {
+    checkmark.style.transitionDuration = "600ms";
+    checkmark.style.color = "transparent";
+  }, 700);
 }
 
 var IDIndex = 0;
