@@ -6,12 +6,19 @@
   </head>
 
   <body>
+    <h2>Select the sortings you want available on reddit</h2>
     <div id="container">
       <div id="list">
         <div class="grid_container" id="grid_container"></div>
-        <p id="add_sorting">+</p><br>
+        <p id="add_sorting">+</p>
         <div id="saveButtonContainer">
           <button class="grid_column_1" type="button" name="save" id="saveButton">Save</button><span id="checkmark">✔</span>
+        </div>
+        <div id="note">
+          <p id="limitations"><span>🛈</span>Reddit redesign limitations</p>
+          <div id="hoverInformation">
+            If you're using the reddit redesign, you can only set each time unit to a lower total time than the bigger unit, i.e. no more than 24 hours, 7 days, 4 weeks or 12 months. Setting for example &quot;36 hours&quot; will only filter posts older than 24 hours and you migth want to use &quot;2 days&quot; instead.<br>(If you don't know what Reddit redesign is, you're probably using it.)
+          </div>
         </div>
       </div>
     </div>

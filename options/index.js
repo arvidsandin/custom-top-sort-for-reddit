@@ -38,6 +38,18 @@ document.getElementById('saveButton').addEventListener('click', () =>{
     console.log(e);
   }
 });
+var hoverInformation = document.getElementById('hoverInformation')
+document.getElementById('limitations').addEventListener('mouseenter', () =>{
+  hoverInformation.style.visibility = 'visible';
+  hoverInformation.style.opacity = '1';
+});
+document.getElementById('limitations').addEventListener('mouseleave', () => {
+  hoverInformation.style.opacity = '0';
+  setTimeout(() => {
+    hoverInformation.style.visibility = 'hidden';
+  }, 200);
+});
+
 
 //functions
 function stopPropagation(event) {

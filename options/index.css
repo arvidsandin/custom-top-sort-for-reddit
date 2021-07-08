@@ -1,8 +1,12 @@
 *{
   font-size: 12pt;
+  font-family: sans-serif;
 }
 body{
   margin: 0;
+}
+h2{
+  text-align: center;
 }
 
 #container {
@@ -52,7 +56,7 @@ input:invalid{
   cursor: pointer;
 }
 #add_sorting{
-  margin: 0 42%;
+  margin: 0 45% 5px 45%;
   font-size: 22pt;
   font-weight: bold;
   display: inline-block;
@@ -67,7 +71,7 @@ input:invalid{
 
 #saveButtonContainer{
   width: 100%;
-  margin: 2px 30% 2px 40%;
+  margin: 2px 0 2px 39%;
 }
 
 #saveButton{
@@ -80,4 +84,31 @@ input:invalid{
   transition: color 200ms ease-in-out;
   -webkit-user-select: none;
   user-select: none;
+}
+
+#note{
+  width: 200%;
+  font-size: 0.8em;
+}
+#note *{
+  font-size: inherit;
+}
+#limitations{
+  display: inline-block;
+  color: #666666;
+  cursor: help;
+  border-bottom: dotted #666666 1pt;
+}
+
+#hoverInformation{
+  position: relative;
+  background-color: #909090;
+  color: #FFFFFF;
+  padding: 0.8em;
+  border-radius: 1em;
+  left: 170px;
+  top: -32px;
+  transition: opacity 200ms ease-in-out;
+  opacity: 0;
+  visibility: hidden;
 }
