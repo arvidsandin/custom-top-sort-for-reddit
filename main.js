@@ -23,9 +23,10 @@ var sortings = defaultSortings;
 });
 
 function filterPosts(){
-  // URL is old.reddit.com or cookie redesign_optout is true
+  // URL is old.reddit.com or (cookie redesign_optout is true and URL is not new.reddit.com)
   if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
-  || document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))) {
+  || (document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))
+  && !/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url))) {
     reddit = new Old(sortings);
   }
   else {
