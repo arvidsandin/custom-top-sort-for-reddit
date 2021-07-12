@@ -23,13 +23,10 @@ var sortings = defaultSortings;
 });
 
 function filterPosts(){
-  // URL is old.reddit.com or (cookie redesign_optout is true and URL is not new.reddit.com)
-  if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
-  || (document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))
-  && !/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url))) {
-    reddit = new Old(sortings);
-  }
-  else {
+  // URL is new.reddit.com/*/top or (cookie redesign_optout is false and URL is www.reddit.com/*/top
+  if (/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
+  || (!document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))
+  && /^(http:\/\/|https:\/\/)?www+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url))) {
     reddit = new New(sortings);
     //scroll event throttling
     document.addEventListener('scroll', function() {
@@ -41,6 +38,15 @@ function filterPosts(){
         reddit.enforceSelectedSorting();
       }
     },1000);
+  }
+  // URL is old.reddit.com/*/top or (cookie redesign_optout is true and URL is not new.reddit.com/*/top)
+  else if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
+  || (document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))
+  && /^(http:\/\/|https:\/\/)?www+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url))) {
+    reddit = new Old(sortings);
+  }
+  else {
+    return ;
   }
 
 

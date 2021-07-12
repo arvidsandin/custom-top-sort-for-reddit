@@ -4,16 +4,27 @@ class New {
     for (var sorting of listOfSortings) {
       html += this.generateSortingHTML(sorting.filterNumber, sorting.filterWord);
     }
+    var customize = document.createElement('a');
+    customize.innerText = "customize";
+    customize.href = "javascript:void(0)";
+    customize.classList = "_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G";
+    customize.addEventListener('click', (event) =>{
+      event.preventDefault();
+      (chrome ? chrome : browser).runtime.sendMessage({"action": "openOptionsPage"});
+    });
+
 
     var listButton = document.getElementsByClassName('_29FQ-HlVE3aNu0iB8mO-ey GzkzdrqG-NjAYH7eKJan4')[0];
     listButton.addEventListener('click', function() {
       setTimeout(function () {
         var dropDown = document.getElementsByClassName('_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif')[0];
         dropDown.innerHTML = html;
+        dropDown.appendChild(customize);
       }, 200);
       setTimeout(function () {
         var dropDown = document.getElementsByClassName('_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif')[0];
         dropDown.innerHTML = html;
+        dropDown.appendChild(customize);
       }, 1000);
     });
   }

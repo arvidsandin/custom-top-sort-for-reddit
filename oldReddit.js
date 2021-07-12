@@ -10,6 +10,16 @@ class Old {
     for (var sorting of listOfSortings) {
       dropDown.innerHTML += this.generateSortingHTML(sorting.filterNumber, sorting.filterWord);
     }
+
+    var customize = document.createElement('a');
+    customize.innerText = "customize";
+    customize.href = "javascript:void(0)";
+    customize.classList = "choice";
+    customize.addEventListener('click', (event) =>{
+      event.preventDefault();
+      (chrome ? chrome : browser).runtime.sendMessage({"action": "openOptionsPage"});
+    });
+    dropDown.appendChild(customize);
   }
 
   enforceSelectedSorting(){

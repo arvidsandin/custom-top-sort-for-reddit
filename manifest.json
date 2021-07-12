@@ -4,7 +4,7 @@
   "name": "Custom top sort for Reddit",
   "version": "0.1",
 
-  "description": "Allow sorting subreddits based on other times durations than the default ones.",
+  "description": "Allow sorting subreddits based on other time durations than the default ones.",
 
   "icons": {
     "48": "icon/icon_48.png",
@@ -19,10 +19,15 @@
 
   "content_scripts": [
     {
-      "matches": ["*://*.reddit.com/*top/*"],
+      "matches": ["*://*.reddit.com/*"],
       "js": ["oldReddit.js", "newReddit.js", "main.js"]
     }
   ],
+
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
 
   "options_ui": {
     "page": "options/index.html",
