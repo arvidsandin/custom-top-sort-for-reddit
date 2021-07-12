@@ -24,7 +24,7 @@ document.getElementById('add_sorting').addEventListener('click', () =>{
 document.getElementById('saveButton').addEventListener('click', () =>{
   sortings = [];
   try {
-    for (var row of document.getElementById('grid_container').childNodes) {
+    for (var row of document.getElementById('row_container').childNodes) {
       sortings.push({
         filterNumber: row.childNodes[1].value,
         filterWord: row.childNodes[2].value.toLowerCase()
@@ -67,43 +67,41 @@ function dragStart(event) {
 function dragOver(event) {
   event.preventDefault();
   var target = event.target;
-  if (!target.classList.contains('grid')) {
+  if (!target.classList.contains('row')) {
     target = event.target.parentNode;
   }
   if ((target.getBoundingClientRect().top+target.clientHeight/2) > event.clientY) {
-    target.style.borderTop = "solid black 2px";
-    target.style.borderBottom = "solid transparent 0px";
+    target.style.borderTop = 'solid black 2px';
+    target.style.borderBottom = '';
   }
   else {
-    target.style.borderBottom = "solid black 2px";
-    target.style.borderTop = "solid transparent 0px";
+    target.style.borderBottom = 'solid black 2px';
+    target.style.borderTop = '';
   }
 }
 
 function dragLeave(event) {
-  try {
-    if (event.target.classList.contains('grid')) {
-      event.target.style.borderTop = "solid transparent 0px";
-      event.target.style.borderBottom = "solid transparent 0px";
-    }
-    else {
-      event.target.parentNode.style.borderTop = "solid transparent 0px";
-      event.target.parentNode.style.borderBottom = "solid transparent 0px";
-    }
-  } catch (e) {
+  var target = event.target;
+  if (target.nodeName == '#text') {
+    target = target.parentNode;
   }
+  if (!target.classList.contains('row')) {
+    target = target.parentNode;
+  }
+  target.style.borderTop = '';
+  target.style.borderBottom = '';
 }
 
 function drop(event) {
   event.preventDefault();
   var origin = document.getElementById(event.dataTransfer.getData("text/plain"));
   var target = event.target;
-  if (!target.classList.contains('grid')) {
+  if (!target.classList.contains('row')) {
     target = event.target.parentNode;
   }
 
-  target.style.borderTop = "solid transparent 0px";
-  target.style.borderBottom = "solid transparent 0px";
+  target.style.borderTop = '';
+  target.style.borderBottom = '';
   if ((target.getBoundingClientRect().top+target.clientHeight/2) > event.clientY) {
     target.parentNode.insertBefore(origin, target);
   }
@@ -130,27 +128,27 @@ function animateCheckmark() {
   }, 700);
 }
 
-var IDIndex = 0;
-function getUniqueID() {
-  IDIndex++;
-  return 'unique_id_' + IDIndex;
+var id_index = 0;
+function getNewUniqueID() {
+  id_index++;
+  return 'unique_id_' + id_index;
 }
 
 function appendOption(filterNumber, filterWord){
-  var gridContainer = document.getElementById('grid_container');
+  var rowContainer = document.getElementById('row_container');
   var row = document.createElement("div");
-  row.setAttribute("class", "grid");
+  row.setAttribute("class", "row");
   row.appendChild(createDraggableArea());
   row.appendChild(createNumberInputField(filterNumber));
   row.appendChild(createdropdownList(filterWord));
   row.appendChild(createRemoveButton());
   row.setAttribute("draggable", "true");
-  row.id = getUniqueID();
+  row.id = getNewUniqueID();
   row.addEventListener('dragover', dragOver);
   row.addEventListener('dragleave', dragLeave);
   row.addEventListener('dragstart', dragStart);
   row.addEventListener('drop', drop);
-  gridContainer.appendChild(row);
+  rowContainer.appendChild(row);
 }
 
 function createDraggableArea() {

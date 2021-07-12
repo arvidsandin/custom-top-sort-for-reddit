@@ -22,7 +22,7 @@ h2{
   flex-wrap: wrap;
 }
 
-.grid {
+.row {
   border-left: solid black 5px;
   width: 100%;
   display: grid;

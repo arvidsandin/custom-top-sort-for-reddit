@@ -5,7 +5,7 @@ if(sessionStorage.getItem('filterNumber') == null || sessionStorage.getItem('fil
 const url = window.location.href;
 var reddit;
 var isScrolling = false;
-var defaultSortings = [
+const defaultSortings = [
   {filterNumber: 1, filterWord: 'hours'},
   {filterNumber: 1, filterWord: 'days'},
   {filterNumber: 2, filterWord: 'days'},
