@@ -8,7 +8,7 @@ class Old {
     var dropDown = document.getElementsByClassName('drop-choices lightdrop')[0];
     dropDown.innerHTML = '';
     for (var sorting of listOfSortings) {
-      dropDown.innerHTML += this.generateSortingHTML(sorting.filterNumber, sorting.filterWord);
+      dropDown.appendChild(this.generateSortingLink(sorting.filterNumber, sorting.filterWord));
     }
 
     var customize = document.createElement('a');
@@ -52,41 +52,75 @@ class Old {
     }
   }
 
-  generateSortingHTML(filterNumber, filterWord){
+  generateSortingLink(filterNumber, filterWord){
     var url = window.location.href;
     var indexOfSignificantURLContent = url.search('/top/') + 5;
     url = url.substring(0, indexOfSignificantURLContent);
-    var html = `<form method="POST" action="` + url +`">
-        <input type="hidden" name="t" value="`;
-    if (filterWord == "all") {
-          html += filterWord;
-        }
-    else if (filterNumber == 1) {
-      html += filterWord.substring(0, filterWord.length - 1);
+    var element = document.createElement('form');
+    element.setAttribute('method', 'POST');
+    element.setAttribute('action', url);
+    var input = document.createElement('input');
+    input.setAttribute('type', 'hidden');
+    input.setAttribute('name', 't');
+    var defaultSortingToUse;
+    var filterWordtoMilliseconds;
+    switch (filterWord) {
+      case 'all':
+        filterWordtoMilliseconds = function (number) {return Infinity;};
+        break;
+      case 'hours':
+        filterWordtoMilliseconds = hoursToMilliseconds;
+        break;
+      case 'days':
+        filterWordtoMilliseconds = daysToMilliseconds;
+        break;
+      case 'weeks':
+        filterWordtoMilliseconds = weeksToMilliseconds;
+        break;
+      case 'months':
+        filterWordtoMilliseconds = monthsToMilliseconds;
+        break;
+      case 'years':
+        filterWordtoMilliseconds = yearsToMilliseconds;
+        break;
+    }
+    if (filterWordtoMilliseconds(filterNumber) > yearsToMilliseconds(1)) {
+      defaultSortingToUse = 'all';
+    }
+    else if (filterWordtoMilliseconds(filterNumber) > monthsToMilliseconds(1)) {
+      defaultSortingToUse = 'year';
+    }
+    else if (filterWordtoMilliseconds(filterNumber) > weeksToMilliseconds(1)) {
+      defaultSortingToUse = 'month';
+    }
+    else if (filterWordtoMilliseconds(filterNumber) > daysToMilliseconds(1)) {
+      defaultSortingToUse = 'week';
+    }
+    else if (filterWordtoMilliseconds(filterNumber) > hoursToMilliseconds(1)) {
+      defaultSortingToUse = 'day';
     }
     else {
-      var times = ['hours', 'days', 'weeks', 'months', 'years', 'alls'];
-      var index = times.indexOf(filterWord);
-      var nextSorting = times[index + 1];
-      html += nextSorting.substring(0, nextSorting.length -1);
+      defaultSortingToUse = 'hour';
     }
-    html += `">
-      <a href="` + url + `" class="choice" onclick="sessionStorage.setItem('filterNumber', '` + filterNumber.toString() + `');sessionStorage.setItem('filterTimespan', '`
-      + filterWord + `');$(this).parent().submit(); return false;">`;
+    input.setAttribute('value', defaultSortingToUse);
+    var link = document.createElement('a');
+    link.classList = 'choice';
+    link.setAttribute('onclick', `sessionStorage.setItem('filterNumber', '${filterNumber.toString()}');sessionStorage.setItem('filterTimespan', '${filterWord}');$(this).parent().submit(); return false;`);
     if (filterWord == "all") {
-      html += filterWord;
+      link.innerText += filterWord;
     }
     else if (filterNumber != 1) {
-      html += 'last ';
-      html += filterNumber.toString() + ' ';
-      html += filterWord;
+      link.innerText += 'last ';
+      link.innerText += filterNumber.toString() + ' ';
+      link.innerText += filterWord;
     }
     else {
-      html += 'last ';
-      html += filterWord.substring(0, filterWord.length -1);
+      link.innerText += 'last ';
+      link.innerText += filterWord.substring(0, filterWord.length -1);
     }
-    html += `</a></form>`
-    return html;
+    element.appendChild(input);
+    element.appendChild(link);
+    return element;
   }
 
   changeTextOfSelectedSorting(newText){
