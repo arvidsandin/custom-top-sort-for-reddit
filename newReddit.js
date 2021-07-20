@@ -1,9 +1,6 @@
 class New {
   constructor(listOfSortings) {
-    var html = '';
-    for (var sorting of listOfSortings) {
-      html += this.generateSortingHTML(sorting.filterNumber, sorting.filterWord);
-    }
+    const parent = this;
     var customize = document.createElement('a');
     customize.innerText = "customize";
     customize.href = "javascript:void(0)";
@@ -18,12 +15,18 @@ class New {
     listButton.addEventListener('click', function() {
       setTimeout(function () {
         var dropDown = document.getElementsByClassName('_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif')[0];
-        dropDown.innerHTML = html;
+        dropDown.innerHTML = '';
+        for (var sorting of listOfSortings) {
+          dropDown.appendChild(parent.generateSortingLink(sorting.filterNumber, sorting.filterWord));
+        }
         dropDown.appendChild(customize);
       }, 200);
       setTimeout(function () {
         var dropDown = document.getElementsByClassName('_2uYY-KeuYHKiwl-9aF0UiL Sgi9lgQUrox4tW9Q75iif')[0];
-        dropDown.innerHTML = html;
+        dropDown.innerHTML = '';
+        for (var sorting of listOfSortings) {
+          dropDown.appendChild(parent.generateSortingLink(sorting.filterNumber, sorting.filterWord));
+        }
         dropDown.appendChild(customize);
       }, 1000);
     });
@@ -61,42 +64,51 @@ class New {
     }
   }
 
-  generateSortingHTML(filterNumber, filterWord){
+  generateSortingLink(filterNumber, filterWord){
+    var element = document.createElement('a');
+    element.classList.add('_39Glgtoolpdt4PIzcnjPSW', '_3LwUIE7yX7CZQKmD2L87vf', '_3LjUrsRA9MkUFLGB6ZCWaX', '_1oYEKCssGFjqxQ9jJMNj5G');
+    element.setAttribute('role', 'menuitem');
+
     var url = window.location.href;
     var indexOfSignificantURLContent = url.search('/top/') + 5;
     url = url.substring(0, indexOfSignificantURLContent);
-    var html = `<a class="_39Glgtoolpdt4PIzcnjPSW _3LwUIE7yX7CZQKmD2L87vf _3LjUrsRA9MkUFLGB6ZCWaX _1oYEKCssGFjqxQ9jJMNj5G" role="menuitem" href="`
-      + url + '?t=';
+    url += '?t=';
     if (filterWord == 'all') {
-      html += filterWord;
+      url += filterWord;
     }
     else if (filterNumber == 1) {
-      html += filterWord.substring(0, filterWord.length - 1);
+      url += filterWord.substring(0, filterWord.length - 1);
     }
     else {
       var times = ['hours', 'days', 'weeks', 'months', 'years', 'alls'];
       var index = times.indexOf(filterWord);
       var nextSorting = times[index + 1];
-      html += nextSorting.substring(0, nextSorting.length -1);
+      url += nextSorting.substring(0, nextSorting.length -1);
     }
-    html += `" onclick="sessionStorage.setItem('filterNumber', '` + filterNumber
-    + `');sessionStorage.setItem('filterTimespan', '` + filterWord
-    + `');">
-    <span class="_2-cXnP74241WI7fpcpfPmg">`;
+
+    element.setAttribute('href', url);
+    element.addEventListener('click', ()=>{
+      sessionStorage.setItem('filterNumber', filterNumber);
+      sessionStorage.setItem('filterTimespan', filterWord);
+    })
+
+    var text = document.createElement('span');
+    text.classList.add('_2-cXnP74241WI7fpcpfPmg');
     if (filterWord == "all") {
-      html += filterWord;
+      text.innerText = filterWord;
     }
     else if (filterNumber != 1) {
-      html += 'last ';
-      html += filterNumber.toString() + ' ';
-      html += filterWord;
+      text.innerText = 'last ';
+      text.innerText += filterNumber + ' ';
+      text.innerText += filterWord;
     }
     else {
-      html += 'last ';
-      html += filterWord.substring(0, filterWord.length -1);
+      text.innerText = 'last ';
+      text.innerText += filterWord.substring(0, filterWord.length -1);
     }
-    html += `</span></a>`
-    return html;
+
+    element.appendChild(text);
+    return element;
   }
 
   changeTextOfSelectedSorting(newText){

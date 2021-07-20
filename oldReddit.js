@@ -125,7 +125,7 @@ class Old {
 
   changeTextOfSelectedSorting(newText){
     var selectedSorting = document.getElementsByClassName('dropdown lightdrop')[0];
-    selectedSorting.firstChild.innerHTML = newText;
+    selectedSorting.firstChild.innerText = newText;
   }
 
   removePostsOlderThan(timeInMilliseconds){

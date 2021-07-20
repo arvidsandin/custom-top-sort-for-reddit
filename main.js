@@ -8,7 +8,6 @@ var isScrolling = false;
 const defaultSortings = [
   {filterNumber: 1, filterWord: 'hours'},
   {filterNumber: 1, filterWord: 'days'},
-  {filterNumber: 2, filterWord: 'days'},
   {filterNumber: 1, filterWord: 'weeks'},
   {filterNumber: 1, filterWord: 'months'},
   {filterNumber: 1, filterWord: 'years'},
