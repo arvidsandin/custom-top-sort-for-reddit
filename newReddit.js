@@ -114,7 +114,7 @@ class New {
   changeTextOfSelectedSorting(newText){
     var selectedSorting = document.getElementsByClassName('_2-cXnP74241WI7fpcpfPmg');
     for (var i = 0; i < selectedSorting.length; i++) {
-      selectedSorting[i].innerHTML = newText;
+      selectedSorting[i].innerText = newText;
     }
   }
 
