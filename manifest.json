@@ -8,7 +8,8 @@
 
   "icons": {
     "48": "icon/icon_48.png",
-    "96": "icon/icon_96.png"
+    "96": "icon/icon_96.png",
+    "128": "icon/icon_128_padding.png"
   },
 
   "permissions": [
