@@ -2,7 +2,6 @@ if(sessionStorage.getItem('filterNumber') == null || sessionStorage.getItem('fil
   resetSelection();
 }
 
-const url = window.location.href;
 var reddit;
 var isScrolling = false;
 const defaultSortings = [
@@ -22,33 +21,27 @@ var sortings = defaultSortings;
 });
 
 function filterPosts(){
-  // URL is new.reddit.com/*/top or (cookie redesign_optout is false and URL is www.reddit.com/*/top
-  if (/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
-  || (!document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))
-  && /^(http:\/\/|https:\/\/)?www+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url))) {
-    reddit = new New(sortings);
-    //scroll event throttling
-    document.addEventListener('scroll', function() {
-      isScrolling = true;
-    }, {passive: true});
-    setInterval(() => {
-      if (isScrolling) {
-        isScrolling = false;
-        reddit.enforceSelectedSorting();
-      }
-    },1000);
-  }
-  // URL is old.reddit.com/*/top or (cookie redesign_optout is true and URL is not new.reddit.com/*/top)
-  else if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
-  || (document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))
-  && /^(http:\/\/|https:\/\/)?www+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url))) {
-    reddit = new Old(sortings);
-  }
-  else {
+  try {
+    if (isUsingOldReddit()) {
+      reddit = new Old(sortings);
+    }
+    else {
+      reddit = new New(sortings);
+      //scroll event throttling
+      document.addEventListener('scroll', function() {
+        isScrolling = true;
+      }, {passive: true});
+      setInterval(() => {
+        if (isScrolling) {
+          isScrolling = false;
+          reddit.enforceSelectedSorting();
+        }
+      },1000);
+    }
+  } catch (e) {
+    console.warn(e.message);
     return ;
   }
-
-
   reddit.enforceSelectedSorting();
   window.addEventListener('load', (event) => {
     reddit.enforceSelectedSorting();
@@ -75,4 +68,36 @@ function yearsToMilliseconds(years){
 function resetSelection(){
   sessionStorage.setItem('filterNumber', '0');
   sessionStorage.setItem('filterTimespan', 'default');
+}
+
+function isUsingOldReddit(){
+  const url = window.location.href;
+  // URL is new.reddit.com/*/top
+  if (/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)){
+    return false;
+  }
+  // URL is old.reddit.com/*/top
+  else if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)){
+    return true;
+  }
+  // URL is www.reddit.com/*/top
+  else if (/^(http:\/\/|https:\/\/)?www+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
+    //Works when HttpOnly is false
+    if (document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))) {
+      return true;
+    }
+    else {
+      //Final fallback: check for element that only exists in old reddit
+      if (document.getElementById("header-img")) {
+        return true;
+      }
+      else {
+        return false;
+      }
+    }
+  }
+  else {
+    //If visiting incompatible site such as i.reddit.com or not sorting by top
+    throw new Error("Custom top sort unavailable: Incompatible URL");
+  }
 }
