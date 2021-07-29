@@ -8,7 +8,7 @@ Tired of only sorting Reddit top with the last hour/day/week/month/year? With Cu
 
 ### Install via browser store (recommended)
 
-The browser extension is currently available to install for [Firefox](https://addons.mozilla.org/addon/custom-top-sort-for-reddit/).
+The browser extension is currently available to install for [Firefox](https://addons.mozilla.org/addon/custom-top-sort-for-reddit/) and [Google Chrome](https://chrome.google.com/webstore/detail/custom-top-sort-for-reddi/ppcdmieefbelokaacilcciackbocjghj).
 
 ### Install local copy
 
@@ -18,7 +18,7 @@ Download the repo and follow the instructions for your browser
 
 ## Issues and contributing
 
-Any issue submissions or pull requests are welcome and appreciated.
+Any issue submissions or pull requests are welcome and appreciated!
 
 ## License
 
