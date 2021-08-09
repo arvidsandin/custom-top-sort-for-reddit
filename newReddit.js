@@ -69,7 +69,7 @@ class New {
     element.classList.add('_39Glgtoolpdt4PIzcnjPSW', '_3LwUIE7yX7CZQKmD2L87vf', '_3LjUrsRA9MkUFLGB6ZCWaX', '_1oYEKCssGFjqxQ9jJMNj5G');
     element.setAttribute('role', 'menuitem');
 
-    var url = window.location.href;
+    var url = window.location.href + '/';
     var indexOfSignificantURLContent = url.search('/top/') + 5;
     url = url.substring(0, indexOfSignificantURLContent);
     url += '?t=';

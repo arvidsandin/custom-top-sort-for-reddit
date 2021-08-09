@@ -53,7 +53,7 @@ class Old {
   }
 
   generateSortingLink(filterNumber, filterWord){
-    var url = window.location.href;
+    var url = window.location.href + '/';
     var indexOfSignificantURLContent = url.search('/top/') + 5;
     url = url.substring(0, indexOfSignificantURLContent);
     var element = document.createElement('form');
