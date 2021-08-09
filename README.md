@@ -2,7 +2,7 @@
 
 ## About The Project
 
-Tired of only sorting Reddit top with the last hour/day/week/month/year? With Custom Top Sort you can sort by last three days, 21 hours, 7 months or whatever you want!
+Tired of only Reddit's top sort only using the last hour/day/week/month/year? With Custom Top Sort you can get the top posts from the last three days, 21 hours, 7 months or whatever you want!
 
 ## Getting Started
 

@@ -4,7 +4,7 @@
   "name": "Custom top sort for Reddit",
   "version": "0.1.1",
 
-  "description": "Allow sorting subreddits based on other time durations than the default ones.",
+  "description": "Allow Reddit's top sort to use other time durations than the default ones.",
 
   "icons": {
     "48": "icon/icon_48.png",
