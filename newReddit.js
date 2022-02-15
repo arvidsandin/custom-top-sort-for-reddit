@@ -32,37 +32,34 @@ class New {
     });
   }
 
-  enforceSelectedSorting(){
+  enforceSelectedSorting() {
     var filterNumber = parseInt(sessionStorage.getItem('filterNumber'));
     var filterTimespan = sessionStorage.getItem('filterTimespan');
     this.removePostsOlderThan(filterNumber, filterTimespan);
-    switch(filterTimespan){
-      case 'years':
-        break;
-      case 'months':
-        this.removePostsOlderThan(0, 'years');
-        break;
-      case 'weeks':
-        this.removePostsOlderThan(0, 'years');
-        this.removePostsOlderThan(0, 'months');
-        this.removePostsOlderThan(filterNumber*7, 'days');
-        break;
-      case 'days':
-        this.removePostsOlderThan(0, 'years');
-        this.removePostsOlderThan(0, 'months');
-        break;
-      case 'hours':
-        this.removePostsOlderThan(0, 'years');
-        this.removePostsOlderThan(0, 'months');
-        this.removePostsOlderThan(0, 'days');
-        break;
-      default:
-        break;
+    if (sortings[filterTimespan]) {
+      sortings[filterTimespan](filterNumber);
     }
     if (filterNumber != 0 && filterTimespan != 'default') {
       this.changeTextOfSelectedSorting('last ' + filterNumber + ' ' + filterTimespan);
     }
   }
+sortings = {
+  months: () => this.removePostsOlderThan(0, 'years'),
+  weeks: (filterNumber) => {
+    this.removePostsOlderThan(0, 'years');
+    this.removePostsOlderThan(0, 'months');
+    this.removePostsOlderThan(filterNumber * 7, 'days');
+  },
+  days: () => {
+    this.removePostsOlderThan(0, 'years');
+    this.removePostsOlderThan(0, 'months');
+  },
+  hours: () => {
+    this.removePostsOlderThan(0, 'years');
+    this.removePostsOlderThan(0, 'months');
+    this.removePostsOlderThan(0, 'days');
+  }
+}
 
   generateSortingLink(filterNumber, filterWord){
     var element = document.createElement('a');

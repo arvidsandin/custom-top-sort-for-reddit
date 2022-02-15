@@ -70,34 +70,32 @@ function resetSelection(){
   sessionStorage.setItem('filterTimespan', 'default');
 }
 
-function isUsingOldReddit(){
+function isUsingOldReddit() {
   const url = window.location.href;
   // URL is new.reddit.com/*/top
-  if (/^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)){
+  var newRedditURL = /^(http:\/\/|https:\/\/)?new+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
+  if (newRedditURL) {
     return false;
   }
   // URL is old.reddit.com/*/top
-  else if (/^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)){
+  var oldRedditURL = /^(http:\/\/|https:\/\/)?old+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
+  if (oldRedditURL) {
     return true;
   }
   // URL is www.reddit.com/*/top
-  else if (/^(http:\/\/|https:\/\/)?www+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)) {
-    //Works when HttpOnly is false
-    if (document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))) {
-      return true;
-    }
-    else {
-      //Final fallback: check for element that only exists in old reddit
-      if (document.getElementById("header-img")) {
-        return true;
-      }
-      else {
-        return false;
-      }
-    }
+  var wwwRedditURL = /^(http:\/\/|https:\/\/)?www+([\-\.]reddit+)\.com(\/.*)?(\/top)(\/.*)?$/.test(url)
+  if (wwwRedditURL) {
+    return isUsingOldRedditOnWWW();
   }
-  else {
-    //If visiting incompatible site such as i.reddit.com or not sorting by top
-    throw new Error("Custom top sort unavailable: Incompatible URL");
-  }
+  //If visiting incompatible site such as i.reddit.com or not sorting by top
+  throw new Error("Custom top sort unavailable: Incompatible URL");
+}
+
+function isUsingOldRedditOnWWW() {
+  //Works when HttpOnly is false
+  const hasRedesignCookie = document.cookie.split(';').some((item) => item.includes('redesign_optout=true'))
+  //Final fallback: check for element that only exists in old reddit
+  const hasElementUniqueToOldReddit = document.getElementById("header-img");
+
+  return hasRedesignCookie || hasElementUniqueToOldReddit
 }
