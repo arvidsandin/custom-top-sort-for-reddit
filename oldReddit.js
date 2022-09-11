@@ -1,7 +1,7 @@
 class Old {
   constructor(listOfSortings) {
     //for reddit enhancement suite
-    window.addEventListener("neverEndingLoad", function() {
+    window.addEventListener("neverEndingLoad", () => {
       this.enforceSelectedSorting();
     });
 
