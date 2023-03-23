@@ -121,7 +121,7 @@ class New {
   removePostsOlderThan(filterNumber, filterWord){
     var posts = document.getElementsByClassName('Post');
     for (var i = posts.length-1; i >= 0; i--) {
-      var time = posts[i].getElementsByClassName('_3jOxDPIQ0KaOWpzvSQo-1s')[0];
+      var time = posts[i].querySelector('[data-click-id="timestamp"]');
       if (time == undefined) {
         return;
       }
